@@ -1,22 +1,143 @@
-# Substrate Cumulus Parachain Template
+<div id="top"></div>
+<p align="center">
+<img src=https://img.shields.io/github/stars/sweatpotato13/substrate-parachain-boilerplate?style=for-the-badge&logo=appveyor&color=blue />
+<img src=https://img.shields.io/github/forks/sweatpotato13/substrate-parachain-boilerplate?style=for-the-badge&logo=appveyor&color=blue />
+<img src=https://img.shields.io/github/issues/sweatpotato13/substrate-parachain-boilerplate?style=for-the-badge&logo=appveyor&color=informational />
+<img src=https://img.shields.io/github/issues-pr/sweatpotato13/substrate-parachain-boilerplate?style=for-the-badge&logo=appveyor&color=informational />
+</p>
+<br />
+<!-- PROJECT LOGO -->
+<p align="center">
+  <a href="https://substrate.io/" target="blank"><img src="https://cdn-images-1.medium.com/max/960/1*OQP5QAtLtrVCtNCKwB6GkQ.png" width="320" alt="Nest Logo" /></a>
+</p>
 
-A new [Cumulus](https://github.com/paritytech/cumulus/)-based Substrate node, ready for hacking ☁️..
+<br />
+<div align="center">
+  <a href="https://github.com/sweatpotato13/substrate-parachain-boilerplate">
+    <!-- <img src="images/logo.png" alt="Logo" width="80" height="80"> -->
+  </a>
 
-This project is originally a fork of the
-[Substrate Node Template](https://github.com/substrate-developer-hub/substrate-node-template)
-modified to include dependencies required for registering this node as a **parathread** or
-**parachain** to a **relay chain**.
+<h3 align="center">Substrate Cumulus Parachain boilerplate</h3>
 
-The stand-alone version of this template is hosted on the
-[Substrate Devhub Parachain Template](https://github.com/substrate-developer-hub/substrate-parachain-template/)
-for each release of Polkadot. It is generated directly to the upstream
-[Parachain Template in Cumulus](https://github.com/paritytech/cumulus/tree/master/parachain-template)
-at each release branch using the
-[Substrate Template Generator](https://github.com/paritytech/substrate-template-generator/).
+  <p align="center">
+    Substrate based polkadot parachain boilerplate
+    <br />
+    <a href="https://github.com/sweatpotato13/substrate-parachain-boilerplate"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/sweatpotato13/substrate-parachain-boilerplate">View Demo</a>
+    ·
+    <a href="https://github.com/sweatpotato13/substrate-parachain-boilerplate/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/sweatpotato13/substrate-parachain-boilerplate/issues">Request Feature</a>
+  </p>
+</div>
 
-👉 Learn more about parachains [here](https://wiki.polkadot.network/docs/learn-parachains), and
-parathreads [here](https://wiki.polkadot.network/docs/learn-parathreads).
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
 
+### Built With
 
-🧙 Learn about how to use this template and run your own parachain testnet for it in the
-[Devhub Cumulus Tutorial](https://docs.substrate.io/tutorials/v3/cumulus/start-relay/).
+-   [Rust](https://www.rust-lang.org/)
+-   [Substrate](https://substrate.io/)
+-   [zombienet](https://github.com/paritytech/zombienet)
+-   [docker](https://www.docker.com/)
+-   [kubernetes](https://kubernetes.io/)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- GETTING STARTED -->
+
+## Getting Started
+
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
+
+### Build locally
+
+1. Clone the repo
+
+    ```sh
+    git clone https://github.com/sweatpotato13/substrate-parachain-boilerplate.git
+    ```
+
+2. Build
+    ```sh
+    make build
+    ```
+
+### Make docker image
+
+1. Build docker image
+    ```sh
+    docker build . -f docker/Dockerfile -t <image-name>/<image-tag>
+    ```
+
+### Setup native local development network with zonbienet
+
+1. Run command
+
+    ```sh
+    zombienet-macos spawn zombienet/local_dev.toml
+    ```
+
+    - Must be installed and builded polkadot on your local machine
+
+### Setup network with zonbienet in kubernetes
+
+1. Change config on `docker_dev.toml` file
+
+    ```sh
+    nano zombienet/docker_dev.toml
+    ```
+
+    - you can change relay chain docker image & parachain docker image
+
+2. Run command
+    ```sh
+    zombienet-macos spawn --provider kubernetes zombienet/docker_dev.toml
+    ```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- CONTRIBUTING -->
+
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- CONTACT -->
+
+## Contact
+
+Project Link: [https://github.com/sweatpotato13/substrate-parachain-boilerplate](https://github.com/sweatpotato13/substrate-parachain-boilerplate)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
