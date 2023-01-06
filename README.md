@@ -102,17 +102,17 @@ To get a local copy up and running follow these simple example steps.
 
 ### Setup network with zonbienet in kubernetes
 
-1. Change config on `docker_dev.toml` file
+1. Change config on `zombienet/k8s_dev.toml` file
 
     ```sh
-    nano zombienet/docker_dev.toml
+    nano zombienet/k8s_dev.toml
     ```
 
     - you can change relay chain docker image & parachain docker image
 
 2. Run command
     ```sh
-    zombienet-macos spawn --provider kubernetes zombienet/docker_dev.toml
+    zombienet-macos spawn --provider kubernetes zombienet/k8s_dev.toml
     ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
