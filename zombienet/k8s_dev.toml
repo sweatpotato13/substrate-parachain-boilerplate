@@ -1,7 +1,7 @@
 [relaychain]
 default_image = "parity/polkadot:v0.9.36"
 default_command = "polkadot"
-chain = "dev"
+chain = "rococo-local"
 
   [[relaychain.nodes]]
   name = "alice"
@@ -12,8 +12,8 @@ chain = "dev"
   validator = true
 
 [[parachains]]
-id = 1000
-chain = "dev"
+id = 1001
+chain = "local"
 cumulus_based = true
 
 	# run alice as parachain collator
@@ -22,4 +22,4 @@ cumulus_based = true
 	validator = true
   image = "sweatpotato/polkadot-parachain:latest"
   command = "parachain-template-node"
-	args = ["-lparachain=debug"]
+	args = ["-lparachain=debug", "--alice"]

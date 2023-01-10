@@ -1,9 +1,16 @@
-[profile.release]
-panic = "unwind"
-
 [workspace]
 members = [
 	"node",
 	"pallets/*",
 	"runtime",
+	"polkadot-parachain",
 ]
+
+[profile.release]
+panic = "unwind"
+opt-level = 3
+
+[profile.production]
+inherits = "release"
+lto = true
+codegen-units = 1
