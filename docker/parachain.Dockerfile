@@ -10,7 +10,7 @@ RUN apt-get update && \
 
 COPY . .
 
-RUN make build-node
+RUN make build-polkadot-parachain
 
 # =============
 
