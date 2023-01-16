@@ -90,17 +90,17 @@ To get a local copy up and running follow these simple example steps.
     docker build . -f docker/Dockerfile -t <image-name>/<image-tag>
     ```
 
-### Setup native local development network with zonbienet
+### Setup native local development network with zombienet
 
 1. Run command
 
     ```sh
-    zombienet-macos spawn zombienet/local_dev.toml
+    zombienet-macos spawn --provider native zombienet/local_dev.toml
     ```
 
     - Must be installed and builded polkadot on your local machine
 
-### Setup network with zonbienet in kubernetes
+### Setup network with zombienet in kubernetes
 
 1. Change config on `zombienet/k8s_dev.toml` file
 
