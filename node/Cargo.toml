@@ -19,6 +19,9 @@ jsonrpsee = { version = "0.16.2", features = ["server"] }
 # Local
 parachain-template-runtime = { path = "../runtime" }
 
+# pallet
+pallet-offchain-worker = { path = "../pallets/offchain-worker", default-features = false }
+
 # Substrate
 frame-benchmarking = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.36" }
 frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.36" }

@@ -1,7 +1,8 @@
 [workspace]
 members = [
 	"node",
-	"pallets/*",
+	"pallets/template",
+	"pallets/offchain-worker",
 	"runtime",
 	"polkadot-parachain",
 ]
