@@ -209,6 +209,15 @@ fn testnet_genesis(
 				})
 				.collect(),
 		},
+		democracy: parachain_template_runtime::DemocracyConfig::default(),
+		council: parachain_template_runtime::CouncilConfig {
+			members: vec![],
+			phantom: Default::default(),
+		},
+		technical_committee: parachain_template_runtime::TechnicalCommitteeConfig {
+			members: vec![],
+			phantom: Default::default(),
+		},
 		// no need to pass anything to aura, in fact it will panic if we do. Session will take care
 		// of this.
 		aura: Default::default(),
@@ -217,6 +226,7 @@ fn testnet_genesis(
 		polkadot_xcm: parachain_template_runtime::PolkadotXcmConfig {
 			safe_xcm_version: Some(SAFE_XCM_VERSION),
 		},
+		treasury: Default::default(),
 		sudo: parachain_template_runtime::SudoConfig {
 			key: Some(get_account_id_from_seed::<sr25519::Public>("Alice")),
 		},

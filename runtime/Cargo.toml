@@ -37,13 +37,20 @@ pallet-aura = { git = "https://github.com/paritytech/substrate", default-feature
 pallet-authorship = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
 pallet-randomness-collective-flip = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
 pallet-balances = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
+pallet-bounties = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
+pallet-child-bounties = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
 pallet-contracts = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
 pallet-contracts-primitives = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
+pallet-collective = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
+pallet-democracy = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
+pallet-scheduler = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
 pallet-session = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
 pallet-sudo = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
 pallet-timestamp = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
+pallet-treasury = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
 pallet-transaction-payment = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
 pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
+pallet-preimage = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
 sp-api = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
 sp-block-builder = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
 sp-consensus-aura = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.36" }
@@ -100,15 +107,22 @@ std = [
 	"pallet-aura/std",
 	"pallet-authorship/std",
 	"pallet-balances/std",
+	"pallet-bounties/std",
+	"pallet-child-bounties/std",
 	"pallet-contracts-primitives/std",
 	"pallet-contracts/std",
 	"pallet-collator-selection/std",
+	"pallet-collective/std",
+    'pallet-democracy/std',
 	"pallet-offchain-worker/std",
+	"pallet-preimage/std",
 	"pallet-randomness-collective-flip/std",
 	"pallet-session/std",
 	"pallet-sudo/std",
+	"pallet-scheduler/std",
 	"pallet-template/std",
 	"pallet-timestamp/std",
+	"pallet-treasury/std",
 	"pallet-transaction-payment-rpc-runtime-api/std",
 	"pallet-transaction-payment/std",
 	"pallet-xcm/std",
@@ -138,10 +152,16 @@ runtime-benchmarks = [
 	"frame-system-benchmarking/runtime-benchmarks",
 	"frame-system/runtime-benchmarks",
 	"pallet-balances/runtime-benchmarks",
+	"pallet-bounties/runtime-benchmarks",
+	"pallet-child-bounties/runtime-benchmarks",
 	"pallet-collator-selection/runtime-benchmarks",
 	"pallet-contracts/runtime-benchmarks",
+	"pallet-preimage/runtime-benchmarks",
+	"pallet-collective/runtime-benchmarks",
+	"pallet-scheduler/runtime-benchmarks",
 	"pallet-template/runtime-benchmarks",
 	"pallet-timestamp/runtime-benchmarks",
+	"pallet-treasury/runtime-benchmarks",
 	"pallet-xcm/runtime-benchmarks",
 	"sp-runtime/runtime-benchmarks",
 	"xcm-builder/runtime-benchmarks",
@@ -161,13 +181,19 @@ try-runtime = [
 	"pallet-aura/try-runtime",
 	"pallet-authorship/try-runtime",
 	"pallet-balances/try-runtime",
+	"pallet-bounties/try-runtime",
+	"pallet-child-bounties/try-runtime",
 	"pallet-collator-selection/try-runtime",
 	"pallet-contracts/try-runtime",
+	"pallet-collective/try-runtime",
 	"pallet-randomness-collective-flip/try-runtime",
+	"pallet-preimage/try-runtime",
 	"pallet-session/try-runtime",
 	"pallet-sudo/try-runtime",
+	"pallet-scheduler/try-runtime",
 	"pallet-template/try-runtime",
 	"pallet-timestamp/try-runtime",
+	"pallet-treasury/try-runtime",
 	"pallet-transaction-payment/try-runtime",
 	"pallet-xcm/try-runtime",
 	"parachain-info/try-runtime",
