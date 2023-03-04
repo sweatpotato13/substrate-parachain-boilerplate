@@ -24,7 +24,9 @@ use crate::{
 };
 use std::future::Future;
 
+pub use manta_primitives::types::{AccountId, Balance, Block, Hash, Header, Index as Nonce};
 use polkadot_service::CollatorPair;
+use session_key_primitives::AuraId;
 use std::sync::Arc;
 
 use sc_consensus::LongestChain;
