@@ -42,8 +42,8 @@ use sp_version::RuntimeVersion;
 use frame_support::{
     construct_runtime, parameter_types,
     traits::{
-        ConstU16, ConstU32, ConstU8, Contains, Currency, EitherOfDiverse, IsInVec,
-        NeverEnsureOrigin, PrivilegeCmp,
+        ConstU16, ConstU32, ConstU8, Contains, Currency, EitherOfDiverse, NeverEnsureOrigin,
+        PrivilegeCmp,
     },
     weights::{ConstantMultiplier, DispatchClass, Weight},
     PalletId,

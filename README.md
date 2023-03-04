@@ -70,7 +70,7 @@
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-### Build locally
+### Build
 
 1. Clone the repo
 
@@ -79,8 +79,14 @@ To get a local copy up and running follow these simple example steps.
    ```
 
 2. Build
+
    ```sh
    make build
+   ```
+
+3. Run standalone dev chain
+   ```sh
+   make dev
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
