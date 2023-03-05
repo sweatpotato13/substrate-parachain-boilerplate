@@ -49,14 +49,31 @@ pub type Result<T = (), E = Error> = core::result::Result<T, E>;
 /// Block Type
 pub type Block = generic::Block<Header, OpaqueExtrinsic>;
 
+/// Manta Parachain ID
+pub const MANTA_PARACHAIN_ID: u32 = 2104;
+
+/// Calamari Parachain ID
+pub const CALAMARI_PARACHAIN_ID: u32 = 2084;
+
 /// Dolphin Parachain ID
-pub const DOLPHIN_PARACHAIN_ID: u32 = 1337;
+pub const DOLPHIN_PARACHAIN_ID: u32 = 2084;
+/// Dolphin on Baikal Parachain ID. Can't be 2084 because Calamari @ Baikal already uses it.
+pub const DOLPHIN_ON_BAIKAL_PARACHAIN_ID: u32 = 2085;
+
 trait IdentifyChain {
+    fn is_manta(&self) -> bool;
+    fn is_calamari(&self) -> bool;
     fn is_dolphin(&self) -> bool;
     fn is_localdev(&self) -> bool;
 }
 
 impl IdentifyChain for dyn sc_service::ChainSpec {
+    fn is_manta(&self) -> bool {
+        self.id().starts_with("manta")
+    }
+    fn is_calamari(&self) -> bool {
+        self.id().starts_with("calamari")
+    }
     fn is_dolphin(&self) -> bool {
         self.id().starts_with("dolphin")
     }
@@ -66,6 +83,12 @@ impl IdentifyChain for dyn sc_service::ChainSpec {
 }
 
 impl<T: sc_service::ChainSpec + 'static> IdentifyChain for T {
+    fn is_manta(&self) -> bool {
+        <dyn sc_service::ChainSpec>::is_manta(self)
+    }
+    fn is_calamari(&self) -> bool {
+        <dyn sc_service::ChainSpec>::is_calamari(self)
+    }
     fn is_dolphin(&self) -> bool {
         <dyn sc_service::ChainSpec>::is_dolphin(self)
     }
@@ -300,6 +323,12 @@ pub fn run_with(cli: Cli) -> Result {
                 BenchmarkCmd::Block(cmd) => runner.sync_run(|config| {
                     construct_benchmark_partials!(config, |partials| cmd.run(partials.client))
                 }),
+                #[cfg(not(feature = "runtime-benchmarks"))]
+                BenchmarkCmd::Storage(_) => Err(
+                    "Storage benchmarking can be enabled with `--features runtime-benchmarks`."
+                        .into(),
+                ),
+                #[cfg(feature = "runtime-benchmarks")]
                 BenchmarkCmd::Storage(cmd) => runner.sync_run(|config| {
                     construct_benchmark_partials!(config, |partials| {
                         let db = partials.backend.expose_db();
@@ -481,7 +510,7 @@ impl CliConfiguration<Self> for RelayChainCli {
     fn base_path(&self) -> Result<Option<BasePath>> {
         Ok(self
             .shared_params()
-            .base_path()
+            .base_path()?
             .or_else(|| self.base_path.clone().map(Into::into)))
     }
 
@@ -536,10 +565,6 @@ impl CliConfiguration<Self> for RelayChainCli {
 
     fn transaction_pool(&self, is_dev: bool) -> Result<sc_service::config::TransactionPoolOptions> {
         self.base.base.transaction_pool(is_dev)
-    }
-
-    fn state_cache_child_ratio(&self) -> Result<Option<usize>> {
-        self.base.base.state_cache_child_ratio()
     }
 
     fn rpc_methods(&self) -> Result<sc_service::config::RpcMethods> {

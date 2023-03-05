@@ -38,6 +38,9 @@ pub use dolphin_runtime::currency::DOL;
 /// Dolphin Endowment: 10 endowment so that total supply is 10B
 pub const DOLPHIN_ENDOWMENT: Balance = 1_000_000_000 * DOL;
 
+/// Staging Telemetry URL
+pub const STAGING_TELEMETRY_URL: &str = "wss://api.telemetry.manta.systems/submit/";
+
 /// Manta Network Chain Spec
 pub type ChainSpec = sc_service::GenericChainSpec<dolphin_runtime::GenesisConfig, Extensions>;
 

@@ -17,7 +17,7 @@
 //! Dolphin Chain Specifications
 
 use super::*;
-use crate::command::DOLPHIN_PARACHAIN_ID;
+use crate::command::{DOLPHIN_ON_BAIKAL_PARACHAIN_ID, DOLPHIN_PARACHAIN_ID};
 use dolphin_runtime::{
     opaque::SessionKeys, CouncilConfig, DemocracyConfig, GenesisConfig, TechnicalCommitteeConfig,
 };
