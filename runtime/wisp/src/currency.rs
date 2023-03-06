@@ -14,11 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Manta.  If not, see <http://www.gnu.org/licenses/>.
 
-//! Parachain CLI
+#![allow(non_upper_case_globals)]
+use common_primitives::types::Balance;
 
-use wisp::command::{run, Result};
+pub const WSP: Balance = 1_000_000_000_000_000_000; // 18 decimal
+pub const cWSP: Balance = WSP / 100; // 16 decimal, cent-WSP
+pub const mWSP: Balance = WSP / 1_000; //15 decimal, milli-WSP
+pub const uWSP: Balance = WSP / 1_000_000; // 12 decimal, micro-WSP
 
-#[inline]
-fn main() -> Result {
-    run()
+pub const fn deposit(items: u32, bytes: u32) -> Balance {
+    items as Balance * 15 * mWSP + (bytes as Balance) * 6 * mWSP // TODO: revisit the storage cost here
 }

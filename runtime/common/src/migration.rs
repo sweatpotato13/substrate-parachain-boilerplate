@@ -18,7 +18,7 @@
 
 #![cfg_attr(not(feature = "std"), no_std)]
 
-use manta_primitives::constants::RocksDbWeight;
+use common_primitives::constants::RocksDbWeight;
 
 use frame_support::{
     dispatch::Weight,

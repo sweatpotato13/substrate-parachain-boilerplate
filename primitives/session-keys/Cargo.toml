@@ -1,5 +1,5 @@
 [package]
-authors = ["Manta Network"]
+authors = ["Cute_Wisp"]
 description = "Primitives for session keys"
 edition = "2021"
 license = "GPL-3.0"
@@ -7,7 +7,7 @@ name = "session-key-primitives"
 version = '4.0.2'
 
 [dependencies]
-manta-primitives = { path = "../manta", default-features = false }
+common-primitives = { path = "../common", default-features = false }
 nimbus-primitives = { git = "https://github.com/manta-network/nimbus.git", branch = "polkadot-v0.9.37", default-features = false }
 parity-scale-codec = { version = "3.1.2", default-features = false, features = ["derive"] }
 scale-info = { version = "2.1.2", default-features = false, features = ["derive"] }
@@ -19,7 +19,7 @@ sp-runtime = { git = "https://github.com/paritytech/substrate.git", branch = "po
 [features]
 default = ["std"]
 std = [
-  "manta-primitives/std",
+  "common-primitives/std",
   "nimbus-primitives/std",
   "parity-scale-codec/std",
   "scale-info/std",

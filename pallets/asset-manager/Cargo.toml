@@ -1,10 +1,10 @@
 [package]
-authors = ["Manta Network"]
+authors = ["Cute_Wisp"]
 edition = "2021"
-homepage = "https://manta.network"
+homepage = ""
 license = "GPL-3.0"
 name = "pallet-asset-manager"
-repository = 'https://github.com/Manta-Network/Manta/'
+repository = ''
 version = '4.0.2'
 
 [dependencies]
@@ -13,7 +13,7 @@ frame-benchmarking = { git = "https://github.com/paritytech/substrate.git", bran
 frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.37", default-features = false }
 frame-system = { git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.37", default-features = false }
 log = { version = "0.4.0", default-features = false }
-manta-primitives = { path = "../../primitives/manta", default-features = false }
+common-primitives = { path = "../../primitives/common", default-features = false }
 scale-info = { version = "2.1.2", default-features = false, features = ["derive"] }
 sp-arithmetic = { git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.37", default-features = false }
 sp-runtime = { git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.37", default-features = false }
@@ -35,14 +35,14 @@ runtime-benchmarks = [
   "frame-benchmarking",
   "frame-support/runtime-benchmarks",
   "frame-system/runtime-benchmarks",
-  "manta-primitives/runtime-benchmarks",
+  "common-primitives/runtime-benchmarks",
 ]
 std = [
   "codec/std",
   "frame-support/std",
   "frame-system/std",
   "log/std",
-  "manta-primitives/std",
+  "common-primitives/std",
   "orml-traits/std",
   "scale-info/std",
   "sp-runtime/std",

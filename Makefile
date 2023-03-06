@@ -8,4 +8,4 @@ update:
 
 .PHONY: dev
 dev:
-	cargo run -- --chain=dolphin-localdev --alice --tmp
+	cargo run -- --chain=wisp-localdev --alice --tmp

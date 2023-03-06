@@ -16,7 +16,7 @@
 
 //! Parachain-specific RPCs implementation.
 
-use manta_primitives::types::{AccountId, Balance, Block, Index as Nonce};
+use common_primitives::types::{AccountId, Balance, Block, Index as Nonce};
 use sc_client_api::AuxStore;
 pub use sc_rpc::{DenyUnsafe, SubscriptionTaskExecutor};
 use sc_transaction_pool_api::TransactionPool;
@@ -25,9 +25,9 @@ use sp_block_builder::BlockBuilder;
 use sp_blockchain::{Error as BlockChainError, HeaderBackend, HeaderMetadata};
 use std::sync::Arc;
 
-mod dolphin;
+mod wisp;
 
-pub use dolphin::create_dolphin_full;
+pub use wisp::create_wisp_full;
 
 /// A type representing all RPC extensions.
 pub type RpcExtension = jsonrpsee::RpcModule<()>;

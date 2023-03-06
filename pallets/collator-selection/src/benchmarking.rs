@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Manta.  If not, see <http://www.gnu.org/licenses/>.
 
-//! Benchmarking setup for manta-collator-selection
+//! Benchmarking setup for collator-selection
 
 use super::*;
 

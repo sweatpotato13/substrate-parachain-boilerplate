@@ -20,6 +20,7 @@ use crate::{
     client::{RuntimeApiCommon, RuntimeApiNimbus},
     rpc,
 };
+pub use common_primitives::types::{AccountId, Balance, Block, Hash, Header, Index as Nonce};
 use cumulus_client_cli::CollatorOptions;
 use cumulus_client_consensus_common::ParachainConsensus;
 use cumulus_client_network::BlockAnnounceValidator;
@@ -29,7 +30,6 @@ use cumulus_client_service::{
 use cumulus_primitives_core::ParaId;
 use cumulus_relay_chain_interface::{RelayChainError, RelayChainInterface};
 use jsonrpsee::RpcModule;
-pub use manta_primitives::types::{AccountId, Balance, Block, Hash, Header, Index as Nonce};
 
 use sc_consensus::ImportQueue;
 use sc_executor::WasmExecutor;
@@ -52,17 +52,17 @@ type HostFunctions = (
     frame_benchmarking::benchmarking::HostFunctions,
 );
 
-/// Native Dolphin Parachain executor instance.
-pub struct DolphinRuntimeExecutor;
-impl sc_executor::NativeExecutionDispatch for DolphinRuntimeExecutor {
+/// Native Wisp Parachain executor instance.
+pub struct WispRuntimeExecutor;
+impl sc_executor::NativeExecutionDispatch for WispRuntimeExecutor {
     type ExtendHostFunctions = frame_benchmarking::benchmarking::HostFunctions;
 
     fn dispatch(method: &str, data: &[u8]) -> Option<Vec<u8>> {
-        dolphin_runtime::api::dispatch(method, data)
+        wisp_runtime::api::dispatch(method, data)
     }
 
     fn native_version() -> sc_executor::NativeVersion {
-        dolphin_runtime::native_version()
+        wisp_runtime::native_version()
     }
 }
 
@@ -323,7 +323,7 @@ where
     Ok((task_manager, client))
 }
 
-/// Start a calamari/dolphin parachain node.
+/// Start a wisp parachain node.
 pub async fn start_parachain_node<RuntimeApi, FullRpc>(
     parachain_config: Configuration,
     polkadot_config: Configuration,

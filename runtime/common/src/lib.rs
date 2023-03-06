@@ -21,8 +21,8 @@
 
 pub mod migration;
 
+use common_primitives::{constants::WEIGHT_PER_NANOS, types::BlockNumber};
 use frame_support::{parameter_types, weights::Weight};
-use manta_primitives::{constants::WEIGHT_PER_NANOS, types::BlockNumber};
 use pallet_transaction_payment::{Multiplier, TargetedFeeAdjustment};
 use sp_runtime::{traits::Bounded, FixedPointNumber, Perquintill};
 

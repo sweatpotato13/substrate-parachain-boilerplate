@@ -21,7 +21,7 @@
 // NOTE: Missing documentation on all `ChainSpecGroup` implementations.
 #![allow(missing_docs)]
 
-use manta_primitives::{
+use common_primitives::{
     constants,
     types::{AccountId, Balance},
 };
@@ -30,19 +30,19 @@ use sc_service::{ChainType, Properties};
 use serde::{Deserialize, Serialize};
 use sp_core::sr25519;
 
-pub mod dolphin;
+pub mod wisp;
 
-pub use self::dolphin::*;
-pub use dolphin_runtime::currency::DOL;
+pub use self::wisp::*;
+pub use wisp_runtime::currency::WSP;
 
-/// Dolphin Endowment: 10 endowment so that total supply is 10B
-pub const DOLPHIN_ENDOWMENT: Balance = 1_000_000_000 * DOL;
+/// Wisp Endowment: 10 endowment so that total supply is 10B
+pub const WISP_ENDOWMENT: Balance = 1_000_000_000 * WSP;
 
 /// Staging Telemetry URL
 pub const STAGING_TELEMETRY_URL: &str = "wss://api.telemetry.manta.systems/submit/";
 
 /// Manta Network Chain Spec
-pub type ChainSpec = sc_service::GenericChainSpec<dolphin_runtime::GenesisConfig, Extensions>;
+pub type ChainSpec = sc_service::GenericChainSpec<wisp_runtime::GenesisConfig, Extensions>;
 
 /// The extensions for the [`ChainSpec`].
 #[derive(

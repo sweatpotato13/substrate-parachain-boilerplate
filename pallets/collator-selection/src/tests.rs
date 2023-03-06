@@ -514,7 +514,7 @@ fn kick_mechanism_parity() {
 }
 
 #[test]
-fn manta_kick_algorithm_normal_operation() {
+fn kick_algorithm_normal_operation() {
     new_test_ext().execute_with(|| {
         // add collator candidates
         setup_3_candidates();
@@ -553,7 +553,7 @@ fn manta_kick_algorithm_normal_operation() {
 }
 
 #[test]
-fn manta_kick_algorithm_boundaries() {
+fn kick_algorithm_boundaries() {
     new_test_ext().execute_with(|| {
         // add collator candidates
         setup_3_candidates();
@@ -618,7 +618,7 @@ fn manta_kick_algorithm_boundaries() {
 }
 
 #[test]
-fn manta_collator_onboarding_sequence() {
+fn collator_onboarding_sequence() {
     new_test_ext().execute_with(|| {
         // add new collator candidates, they will become validators next session
         // Sessions rotate every 10 blocks, so we kick on each x0-th block
@@ -638,7 +638,7 @@ fn manta_collator_onboarding_sequence() {
 }
 
 #[test]
-fn manta_dont_kick_invulnerables() {
+fn dont_kick_invulnerables() {
     new_test_ext().execute_with(|| {
         setup_3_candidates();
         initialize_to_block(20);
@@ -654,7 +654,7 @@ fn manta_dont_kick_invulnerables() {
 }
 
 #[test]
-fn manta_remove_underperformer_even_if_it_recovers() {
+fn remove_underperformer_even_if_it_recovers() {
     new_test_ext().execute_with(|| {
         setup_3_candidates();
         initialize_to_block(20);
@@ -677,7 +677,7 @@ fn manta_remove_underperformer_even_if_it_recovers() {
 }
 
 #[test]
-fn manta_remove_underperformer_even_if_it_is_immediately_readded_as_candidate() {
+fn remove_underperformer_even_if_it_is_immediately_readded_as_candidate() {
     // TC3: EVE underperforms for one session, is kicked and immediately readded - loses one session then onboards again
     new_test_ext().execute_with(|| {
         setup_3_candidates();
@@ -708,7 +708,7 @@ fn manta_remove_underperformer_even_if_it_is_immediately_readded_as_candidate() 
 }
 
 #[test]
-fn manta_dont_kick_uniform_underperformance() {
+fn dont_kick_uniform_underperformance() {
     // TC4: Everybody underperforms (algorithm knows no target number, just relative performance), nobody gets kicked
     new_test_ext().execute_with(|| {
         setup_3_candidates();
@@ -723,7 +723,7 @@ fn manta_dont_kick_uniform_underperformance() {
 }
 
 #[test]
-fn manta_dont_kick_collator_at_tolerance() {
+fn dont_kick_collator_at_tolerance() {
     // TC5: EVE is on threshold, don't kick ( at 5 nodes, the 80th percentile is the second highest value of the set = 100, 10% threshold is 10 )
     new_test_ext().execute_with(|| {
         setup_3_candidates();

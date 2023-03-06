@@ -1,10 +1,10 @@
 [package]
-authors = ['Manta Network']
+authors = ['Cute_Wisp']
 edition = "2021"
-homepage = 'https://manta.network'
+homepage = ''
 license = 'GPL-3.0'
 name = "runtime-common"
-repository = 'https://github.com/Manta-Network/Manta/'
+repository = ''
 version = '4.0.2'
 
 [dependencies]
@@ -15,7 +15,7 @@ sp-runtime = { git = 'https://github.com/paritytech/substrate.git', branch = "po
 sp-std = { git = 'https://github.com/paritytech/substrate.git', branch = "polkadot-v0.9.37", default-features = false }
 
 # Self dependencies
-manta-primitives = { path = '../../primitives/manta', default-features = false }
+common-primitives = { path = '../../primitives/common', default-features = false }
 
 [dev-dependencies]
 sp-io = { git = 'https://github.com/paritytech/substrate.git', branch = "polkadot-v0.9.37" }
@@ -24,7 +24,7 @@ sp-io = { git = 'https://github.com/paritytech/substrate.git', branch = "polkado
 default = ["std"]
 std = [
   "frame-support/std",
-  "manta-primitives/std",
+  "common-primitives/std",
   "pallet-transaction-payment/std",
   "sp-runtime/std",
   "sp-std/std",

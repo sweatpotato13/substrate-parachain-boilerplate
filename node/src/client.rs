@@ -16,7 +16,7 @@
 
 //! RuntimeApi for client
 
-use manta_primitives::types::{AccountId, Balance, Block, Index as Nonce};
+use common_primitives::types::{AccountId, Balance, Block, Index as Nonce};
 use sp_runtime::traits::BlakeTwo256;
 
 /// RuntimeApiCommon + RuntimeApiNimbus: nimbus

@@ -21,6 +21,14 @@
 
 use crate as pallet_asset_manager;
 use crate::mock::sp_api_hidden_includes_construct_runtime::hidden_include::traits::GenesisBuild;
+use common_primitives::{
+    assets::{
+        AssetConfig, AssetIdType, AssetLocation, AssetRegistry, AssetRegistryMetadata,
+        AssetStorageMetadata, BalanceType, LocationType, NativeAndNonNative,
+    },
+    constants::{ASSET_MANAGER_PALLET_ID, ASSET_STRING_LIMIT},
+    types::{AccountId, Balance, BlockNumber, CommonAssetId, Header},
+};
 use frame_support::{
     construct_runtime,
     pallet_prelude::DispatchResult,
@@ -30,14 +38,6 @@ use frame_support::{
 };
 use frame_system as system;
 use frame_system::{EnsureRoot, EnsureSigned};
-use manta_primitives::{
-    assets::{
-        AssetConfig, AssetIdType, AssetLocation, AssetRegistry, AssetRegistryMetadata,
-        AssetStorageMetadata, BalanceType, LocationType, NativeAndNonNative,
-    },
-    constants::{ASSET_MANAGER_PALLET_ID, ASSET_STRING_LIMIT},
-    types::{AccountId, Balance, BlockNumber, CalamariAssetId, Header},
-};
 use sp_core::H256;
 use sp_runtime::traits::{BlakeTwo256, IdentityLookup};
 use xcm::{
@@ -47,7 +47,7 @@ use xcm::{
 };
 parameter_types! {
     pub const BlockHashCount: u64 = 250;
-    pub const SS58Prefix: u8 = manta_primitives::constants::CALAMARI_SS58PREFIX;
+    pub const SS58Prefix: u8 = common_primitives::constants::WISP_SS58PREFIX;
 }
 
 impl system::Config for Runtime {
@@ -89,7 +89,7 @@ parameter_types! {
 impl pallet_assets::Config for Runtime {
     type RuntimeEvent = RuntimeEvent;
     type Balance = Balance;
-    type AssetId = CalamariAssetId;
+    type AssetId = CommonAssetId;
     type Currency = Balances;
     type ForceOrigin = EnsureRoot<AccountId>;
     type AssetDeposit = AssetDeposit;
@@ -102,7 +102,7 @@ impl pallet_assets::Config for Runtime {
     type Extra = ();
     type WeightInfo = ();
     type RemoveItemsLimit = ConstU32<1000>;
-    type AssetIdParameter = CalamariAssetId;
+    type AssetIdParameter = CommonAssetId;
     type CreateOrigin = AsEnsureOriginWithArg<EnsureSigned<AccountId>>;
     type CallbackHandle = ();
 }
@@ -125,19 +125,19 @@ impl pallet_balances::Config for Runtime {
     type ReserveIdentifier = [u8; 8];
 }
 
-pub struct MantaAssetRegistry;
-impl BalanceType for MantaAssetRegistry {
+pub struct CommonAssetRegistry;
+impl BalanceType for CommonAssetRegistry {
     type Balance = Balance;
 }
-impl AssetIdType for MantaAssetRegistry {
-    type AssetId = CalamariAssetId;
+impl AssetIdType for CommonAssetRegistry {
+    type AssetId = CommonAssetId;
 }
-impl AssetRegistry for MantaAssetRegistry {
+impl AssetRegistry for CommonAssetRegistry {
     type Metadata = AssetStorageMetadata;
     type Error = sp_runtime::DispatchError;
 
     fn create_asset(
-        asset_id: CalamariAssetId,
+        asset_id: CommonAssetId,
         metadata: AssetStorageMetadata,
         min_balance: Balance,
         is_sufficient: bool,
@@ -161,7 +161,7 @@ impl AssetRegistry for MantaAssetRegistry {
     }
 
     fn update_asset_metadata(
-        asset_id: &CalamariAssetId,
+        asset_id: &CommonAssetId,
         metadata: AssetStorageMetadata,
     ) -> DispatchResult {
         Assets::force_set_metadata(
@@ -176,14 +176,14 @@ impl AssetRegistry for MantaAssetRegistry {
 }
 
 parameter_types! {
-    pub const StartNonNativeAssetId: CalamariAssetId = 8;
-    pub const NativeAssetId: CalamariAssetId = 1;
+    pub const StartNonNativeAssetId: CommonAssetId = 8;
+    pub const NativeAssetId: CommonAssetId = 1;
     pub NativeAssetLocation: AssetLocation = AssetLocation(
         VersionedMultiLocation::V1(MultiLocation::new(1, X1(Parachain(1024)))));
     pub NativeAssetMetadata: AssetRegistryMetadata<Balance> = AssetRegistryMetadata {
         metadata: AssetStorageMetadata {
-            name: b"Dolphin".to_vec(),
-            symbol: b"DOL".to_vec(),
+            name: b"wisp".to_vec(),
+            symbol: b"WSP".to_vec(),
             decimals: 18,
             is_frozen: false,
         },
@@ -195,33 +195,33 @@ parameter_types! {
 
 /// AssetConfig implementations for this runtime
 #[derive(Clone, Eq, PartialEq)]
-pub struct MantaAssetConfig;
-impl LocationType for MantaAssetConfig {
+pub struct CommonAssetConfig;
+impl LocationType for CommonAssetConfig {
     type Location = AssetLocation;
 }
-impl AssetIdType for MantaAssetConfig {
-    type AssetId = CalamariAssetId;
+impl AssetIdType for CommonAssetConfig {
+    type AssetId = CommonAssetId;
 }
-impl BalanceType for MantaAssetConfig {
+impl BalanceType for CommonAssetConfig {
     type Balance = Balance;
 }
-impl AssetConfig<Runtime> for MantaAssetConfig {
+impl AssetConfig<Runtime> for CommonAssetConfig {
     type StartNonNativeAssetId = StartNonNativeAssetId;
     type NativeAssetId = NativeAssetId;
     type AssetRegistryMetadata = AssetRegistryMetadata<Balance>;
     type NativeAssetLocation = NativeAssetLocation;
     type NativeAssetMetadata = NativeAssetMetadata;
     type StorageMetadata = AssetStorageMetadata;
-    type AssetRegistry = MantaAssetRegistry;
-    type FungibleLedger = NativeAndNonNative<Runtime, MantaAssetConfig, Balances, Assets>;
+    type AssetRegistry = CommonAssetRegistry;
+    type FungibleLedger = NativeAndNonNative<Runtime, CommonAssetConfig, Balances, Assets>;
 }
 
 impl pallet_asset_manager::Config for Runtime {
     type RuntimeEvent = RuntimeEvent;
-    type AssetId = CalamariAssetId;
+    type AssetId = CommonAssetId;
     type Balance = Balance;
     type Location = AssetLocation;
-    type AssetConfig = MantaAssetConfig;
+    type AssetConfig = CommonAssetConfig;
     type ModifierOrigin = EnsureRoot<AccountId>;
     type PalletId = AssetManagerPalletId;
     type WeightInfo = ();
@@ -250,7 +250,7 @@ pub fn new_test_ext() -> sp_io::TestExternalities {
         .build_storage::<Runtime>()
         .unwrap();
     pallet_asset_manager::GenesisConfig::<Runtime> {
-        start_id: <MantaAssetConfig as AssetConfig<Runtime>>::StartNonNativeAssetId::get(),
+        start_id: <CommonAssetConfig as AssetConfig<Runtime>>::StartNonNativeAssetId::get(),
     }
     .assimilate_storage(&mut t)
     .unwrap();

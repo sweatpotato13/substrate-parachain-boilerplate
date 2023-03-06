@@ -1,13 +1,13 @@
 [package]
-authors = ['Manta Network']
+authors = ['Cute_Wisp']
 build = 'build.rs'
-default-run = "manta"
-description = 'Manta Parachain Node.'
+default-run = "wisp"
+description = 'Parachain Node.'
 edition = '2021'
-homepage = 'https://manta.network'
+homepage = ''
 license = 'GPL-3.0'
-name = 'manta'
-repository = 'https://github.com/Manta-Network/Manta/'
+name = 'wisp'
+repository = ''
 rust-version = '1.62'
 version = '4.0.2'
 
@@ -102,8 +102,8 @@ polkadot-service = { git = 'https://github.com/paritytech/polkadot.git', branch 
 xcm = { git = "https://github.com/paritytech/polkadot.git", branch = "release-v0.9.37" }
 
 # Self dependencies
-dolphin-runtime = { path = '../runtime/dolphin' }
-manta-primitives = { path = '../primitives/manta' }
+wisp-runtime = { path = '../runtime/wisp' }
+common-primitives = { path = '../primitives/common' }
 session-key-primitives = { path = '../primitives/session-keys' }
 
 [build-dependencies]

@@ -44,16 +44,16 @@ pub use pallet::*;
 #[frame_support::pallet]
 pub mod pallet {
     use crate::weights::WeightInfo;
+    use common_primitives::assets::{
+        self, AssetConfig, AssetIdLocationMap, AssetIdType, AssetMetadata, AssetRegistry,
+        FungibleLedger, LocationType,
+    };
     use frame_support::{
         pallet_prelude::*,
         traits::{Contains, StorageVersion},
         transactional, PalletId,
     };
     use frame_system::pallet_prelude::*;
-    use manta_primitives::assets::{
-        self, AssetConfig, AssetIdLocationMap, AssetIdType, AssetMetadata, AssetRegistry,
-        FungibleLedger, LocationType,
-    };
     use orml_traits::GetByKey;
     use sp_runtime::{
         traits::{

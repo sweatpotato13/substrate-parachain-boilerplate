@@ -16,7 +16,7 @@
 
 //! Key Generation Utilities
 
-use manta_primitives::types::{AccountId, Signer};
+use common_primitives::types::{AccountId, Signer};
 use sp_core::{crypto::CryptoType, Pair};
 use sp_runtime::traits::IdentifyAccount;
 

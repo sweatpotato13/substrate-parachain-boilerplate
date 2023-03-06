@@ -16,6 +16,7 @@
 
 use super::*;
 use crate as collator_selection;
+use common_primitives::types::{BlockNumber, Header};
 use frame_support::{
     ord_parameter_types, parameter_types,
     traits::{
@@ -24,7 +25,6 @@ use frame_support::{
     PalletId,
 };
 use frame_system::EnsureSignedBy;
-use manta_primitives::types::{BlockNumber, Header};
 use sp_arithmetic::Percent;
 use sp_core::H256;
 use sp_runtime::{

@@ -20,12 +20,12 @@ use crate::{
     self as asset_manager, AssetIdLocation, AssetIdMetadata, Error, LocationAssetId, UnitsPerSecond,
 };
 use asset_manager::mock::*;
+use common_primitives::assets::{AssetConfig, AssetLocation, FungibleLedger};
 use frame_support::{
     assert_noop, assert_ok,
     traits::{fungibles::InspectMetadata, Contains},
     WeakBoundedVec,
 };
-use manta_primitives::assets::{AssetConfig, AssetLocation, FungibleLedger};
 use orml_traits::GetByKey;
 use sp_runtime::traits::BadOrigin;
 use xcm::{latest::prelude::*, VersionedMultiLocation};
@@ -35,9 +35,11 @@ pub const ALICE: sp_runtime::AccountId32 = sp_runtime::AccountId32::new([0u8; 32
 #[test]
 fn basic_setup_should_work() {
     new_test_ext().execute_with(|| {
-        let asset_id = <MantaAssetConfig as AssetConfig<Runtime>>::NativeAssetId::get();
-        let asset_location = <MantaAssetConfig as AssetConfig<Runtime>>::NativeAssetLocation::get();
-        let asset_metadata = <MantaAssetConfig as AssetConfig<Runtime>>::NativeAssetMetadata::get();
+        let asset_id = <CommonAssetConfig as AssetConfig<Runtime>>::NativeAssetId::get();
+        let asset_location =
+            <CommonAssetConfig as AssetConfig<Runtime>>::NativeAssetLocation::get();
+        let asset_metadata =
+            <CommonAssetConfig as AssetConfig<Runtime>>::NativeAssetMetadata::get();
         assert_eq!(
             AssetIdLocation::<Runtime>::get(asset_id),
             Some(asset_location.clone())
@@ -99,7 +101,7 @@ fn register_asset_should_work() {
         X2(Parachain(para_id), PalletInstance(PALLET_BALANCES_INDEX)),
     )));
     new_test_ext().execute_with(|| {
-        let mut counter = <MantaAssetConfig as AssetConfig<Runtime>>::StartNonNativeAssetId::get();
+        let mut counter = <CommonAssetConfig as AssetConfig<Runtime>>::StartNonNativeAssetId::get();
         // Register relay chain native token
         assert_ok!(AssetManager::register_asset(
             RuntimeOrigin::root(),
@@ -154,7 +156,7 @@ fn update_asset() {
     )));
     new_test_ext().execute_with(|| {
         // Register relay chain native token
-        let asset_id = <MantaAssetConfig as AssetConfig<Runtime>>::StartNonNativeAssetId::get();
+        let asset_id = <CommonAssetConfig as AssetConfig<Runtime>>::StartNonNativeAssetId::get();
         assert_ok!(AssetManager::register_asset(
             RuntimeOrigin::root(),
             source_location.clone(),
@@ -165,7 +167,7 @@ fn update_asset() {
             Some(source_location.clone())
         );
         // Cannot update asset 1. Will be reserved for the native asset.
-        let native_asset_id = <MantaAssetConfig as AssetConfig<Runtime>>::NativeAssetId::get();
+        let native_asset_id = <CommonAssetConfig as AssetConfig<Runtime>>::NativeAssetId::get();
         assert_noop!(
             AssetManager::update_asset_metadata(
                 RuntimeOrigin::root(),
@@ -254,55 +256,48 @@ fn update_asset() {
 #[test]
 fn check_para_id_info_when_update_asset_location() {
     new_test_ext().execute_with(|| {
-        let manta_para_id = 2015;
-        let manta_asset_metadata = create_asset_metadata("Manta", "MANTA", 18, 1u128, false, false);
-        let mut manta_native_location = AssetLocation(VersionedMultiLocation::V1(
-            MultiLocation::new(1, X1(Parachain(manta_para_id))),
-        ));
+        let para_id = 2015;
+        let asset_metadata = create_asset_metadata("Manta", "MANTA", 18, 1u128, false, false);
+        let mut native_location = AssetLocation(VersionedMultiLocation::V1(MultiLocation::new(
+            1,
+            X1(Parachain(para_id)),
+        )));
 
         // registering manta native asset should work.
         assert_ok!(AssetManager::register_asset(
             RuntimeOrigin::root(),
-            manta_native_location,
-            manta_asset_metadata
+            native_location,
+            asset_metadata
         ));
-        let manta_asset_id = crate::NextAssetId::<Runtime>::get() - 1;
+        let asset_id = crate::NextAssetId::<Runtime>::get() - 1;
         // check para id
-        assert!(crate::AllowedDestParaIds::<Runtime>::contains_key(
-            manta_para_id
-        ));
-        assert_eq!(
-            crate::AllowedDestParaIds::<Runtime>::get(manta_para_id),
-            Some(1)
-        );
+        assert!(crate::AllowedDestParaIds::<Runtime>::contains_key(para_id));
+        assert_eq!(crate::AllowedDestParaIds::<Runtime>::get(para_id), Some(1));
 
         // create a non manta asset.
-        let manta_non_native_asset_metadata =
+        let non_native_asset_metadata =
             create_asset_metadata("Manta", "eMANTA", 18, 1u128, false, false);
-        let mut manta_non_native_location =
+        let mut non_native_location =
             AssetLocation(VersionedMultiLocation::V1(MultiLocation::new(
                 1,
                 X2(
-                    Parachain(manta_para_id),
+                    Parachain(para_id),
                     GeneralKey(WeakBoundedVec::force_from(b"eMANTA".to_vec(), None)),
                 ),
             )));
         // registering manta non native asset should work.
         assert_ok!(AssetManager::register_asset(
             RuntimeOrigin::root(),
-            manta_non_native_location,
-            manta_non_native_asset_metadata
+            non_native_location,
+            non_native_asset_metadata
         ));
-        let manta_non_native_asset_id = crate::NextAssetId::<Runtime>::get() - 1;
-        // ParaId=manta_para_id should have 2 assets.
-        assert_eq!(
-            crate::AllowedDestParaIds::<Runtime>::get(manta_para_id),
-            Some(2)
-        );
+        let non_native_asset_id = crate::NextAssetId::<Runtime>::get() - 1;
+        // ParaId=para_id should have 2 assets.
+        assert_eq!(crate::AllowedDestParaIds::<Runtime>::get(para_id), Some(2));
 
         // Update new para id for manta native location
-        let new_para_id = manta_para_id + 1;
-        manta_native_location = AssetLocation(VersionedMultiLocation::V1(MultiLocation::new(
+        let new_para_id = para_id + 1;
+        native_location = AssetLocation(VersionedMultiLocation::V1(MultiLocation::new(
             1,
             X2(
                 Parachain(new_para_id),
@@ -311,23 +306,20 @@ fn check_para_id_info_when_update_asset_location() {
         )));
         assert_ok!(AssetManager::update_asset_location(
             RuntimeOrigin::root(),
-            manta_asset_id,
-            manta_native_location,
+            asset_id,
+            native_location,
         ));
-        // ParaId=manta_para_id should have 1 asset.
-        assert_eq!(
-            crate::AllowedDestParaIds::<Runtime>::get(manta_para_id),
-            Some(1)
-        );
+        // ParaId=para_id should have 1 asset.
+        assert_eq!(crate::AllowedDestParaIds::<Runtime>::get(para_id), Some(1));
         // ParaId=new_para_id should have 1 asset.
         assert_eq!(
             crate::AllowedDestParaIds::<Runtime>::get(new_para_id),
             Some(1)
         );
 
-        // Update para id for manta_non_native_location
+        // Update para id for non_native_location
         let new_para_id_again = new_para_id + 1;
-        manta_non_native_location = AssetLocation(VersionedMultiLocation::V1(MultiLocation::new(
+        non_native_location = AssetLocation(VersionedMultiLocation::V1(MultiLocation::new(
             1,
             X2(
                 Parachain(new_para_id_again),
@@ -336,13 +328,11 @@ fn check_para_id_info_when_update_asset_location() {
         )));
         assert_ok!(AssetManager::update_asset_location(
             RuntimeOrigin::root(),
-            manta_non_native_asset_id,
-            manta_non_native_location,
+            non_native_asset_id,
+            non_native_location,
         ));
-        // ParaId=manta_para_id should deleted.
-        assert!(!crate::AllowedDestParaIds::<Runtime>::contains_key(
-            manta_para_id
-        ));
+        // ParaId=para_id should deleted.
+        assert!(!crate::AllowedDestParaIds::<Runtime>::contains_key(para_id));
         // ParaId=new_para_id_again should have 1 asset.
         assert_eq!(
             crate::AllowedDestParaIds::<Runtime>::get(new_para_id_again),
@@ -360,9 +350,9 @@ fn check_para_id_info_when_update_asset_location() {
 fn mint_asset() {
     new_test_ext().execute_with(|| {
         // mint native asset
-        let native_asset_id = <MantaAssetConfig as AssetConfig<Runtime>>::NativeAssetId::get();
+        let native_asset_id = <CommonAssetConfig as AssetConfig<Runtime>>::NativeAssetId::get();
         assert_ok!(
-            <MantaAssetConfig as AssetConfig<Runtime>>::FungibleLedger::deposit_minting(
+            <CommonAssetConfig as AssetConfig<Runtime>>::FungibleLedger::deposit_minting(
                 native_asset_id,
                 &ALICE,
                 1_000_000
@@ -371,7 +361,7 @@ fn mint_asset() {
 
         // mint non-native asset
         let non_native_asset_id =
-            <MantaAssetConfig as AssetConfig<Runtime>>::StartNonNativeAssetId::get();
+            <CommonAssetConfig as AssetConfig<Runtime>>::StartNonNativeAssetId::get();
         let asset_metadata = create_asset_metadata("Kusama", "KSM", 12, 1u128, false, true);
         let source_location = AssetLocation(VersionedMultiLocation::V1(MultiLocation::parent()));
         assert_ok!(AssetManager::register_asset(
@@ -380,7 +370,7 @@ fn mint_asset() {
             asset_metadata
         ));
         assert_ok!(
-            <MantaAssetConfig as AssetConfig<Runtime>>::FungibleLedger::deposit_minting(
+            <CommonAssetConfig as AssetConfig<Runtime>>::FungibleLedger::deposit_minting(
                 non_native_asset_id,
                 &ALICE,
                 1_000_000
@@ -395,8 +385,8 @@ fn filter_asset_location_should_work() {
     let kusama_location = AssetLocation(VersionedMultiLocation::V1(MultiLocation::parent()));
 
     let para_id = 2015;
-    let manta_asset_metadata = create_asset_metadata("Manta", "MANTA", 18, 1u128, false, false);
-    let manta_location = AssetLocation(VersionedMultiLocation::V1(MultiLocation::new(
+    let asset_metadata = create_asset_metadata("Manta", "MANTA", 18, 1u128, false, false);
+    let location = AssetLocation(VersionedMultiLocation::V1(MultiLocation::new(
         1,
         X1(Parachain(para_id)),
     )));
@@ -416,14 +406,14 @@ fn filter_asset_location_should_work() {
         // Register manta para chain native token
         assert_ok!(AssetManager::register_asset(
             RuntimeOrigin::root(),
-            manta_location.clone(),
-            manta_asset_metadata.clone()
+            location.clone(),
+            asset_metadata.clone()
         ));
 
-        let manta_asset_id = crate::NextAssetId::<Runtime>::get() - 1;
+        let asset_id = crate::NextAssetId::<Runtime>::get() - 1;
         assert_eq!(
-            AssetIdLocation::<Runtime>::get(manta_asset_id),
-            Some(manta_location.clone())
+            AssetIdLocation::<Runtime>::get(asset_id),
+            Some(location.clone())
         );
 
         // correct location should work
@@ -485,8 +475,8 @@ fn filter_asset_location_should_work() {
 
 #[test]
 fn set_min_xcm_fee_should_work() {
-    let manta_asset_metadata = create_asset_metadata("Manta", "MANTA", 18, 1u128, false, false);
-    let manta_location = AssetLocation(VersionedMultiLocation::V1(MultiLocation::new(
+    let asset_metadata = create_asset_metadata("Manta", "MANTA", 18, 1u128, false, false);
+    let location = AssetLocation(VersionedMultiLocation::V1(MultiLocation::new(
         1,
         X2(
             Parachain(2015),
@@ -497,14 +487,14 @@ fn set_min_xcm_fee_should_work() {
         // Register a non native token.
         assert_ok!(AssetManager::register_asset(
             RuntimeOrigin::root(),
-            manta_location.clone(),
-            manta_asset_metadata.clone()
+            location.clone(),
+            asset_metadata.clone()
         ));
 
-        let manta_asset_id = crate::NextAssetId::<Runtime>::get() - 1;
+        let asset_id = crate::NextAssetId::<Runtime>::get() - 1;
         assert_eq!(
-            AssetIdLocation::<Runtime>::get(manta_asset_id),
-            Some(manta_location.clone())
+            AssetIdLocation::<Runtime>::get(asset_id),
+            Some(location.clone())
         );
 
         let min_xcm_fee = 100;
@@ -512,7 +502,7 @@ fn set_min_xcm_fee_should_work() {
         assert_noop!(
             AssetManager::set_min_xcm_fee(
                 RuntimeOrigin::signed([2u8; 32].into()),
-                manta_location.clone(),
+                location.clone(),
                 min_xcm_fee,
             ),
             BadOrigin
@@ -521,11 +511,11 @@ fn set_min_xcm_fee_should_work() {
         // only sudo can set it.
         assert_ok!(AssetManager::set_min_xcm_fee(
             RuntimeOrigin::root(),
-            manta_location.clone(),
+            location.clone(),
             min_xcm_fee,
         ));
         assert_eq!(
-            crate::MinXcmFee::<Runtime>::get(&manta_location),
+            crate::MinXcmFee::<Runtime>::get(&location),
             Some(min_xcm_fee)
         );
 
