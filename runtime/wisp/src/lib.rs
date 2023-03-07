@@ -1,19 +1,3 @@
-// Copyright 2020-2023 Manta Network.
-// This file is part of Manta.
-//
-// Manta is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Manta is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Manta.  If not, see <http://www.gnu.org/licenses/>.
-
 //! Wisp Parachain Runtime
 
 #![allow(clippy::identity_op)] // keep e.g. 1 * DAYS for legibility
@@ -270,7 +254,7 @@ impl Contains<RuntimeCall> for BaseFilter {
             | RuntimeCall::Utility(_) => true,
 
             // DISALLOW anything else
-            _ => false,
+            | _ => false,
         }
     }
 }
@@ -809,7 +793,7 @@ mod benches {
         [cumulus_pallet_xcmp_queue, XcmpQueue]
         [pallet_xcm_benchmarks::fungible, pallet_xcm_benchmarks::fungible::Pallet::<Runtime>]
         [pallet_xcm_benchmarks::generic, pallet_xcm_benchmarks::generic::Pallet::<Runtime>]
-        // Manta pallets
+        // pallets
         [collator_selection, CollatorSelection]
         [pallet_asset_manager, AssetManager]
         // Nimbus pallets
@@ -825,7 +809,6 @@ impl_runtime_apis! {
 
         fn authorities() -> Vec<AuraId> {
             // NOTE: AuraAPI must exist for node/src/aura_or_nimbus_consensus.rs
-            // But is intentionally DISABLED starting with manta v3.3.0
             vec![]
         }
     }
