@@ -764,7 +764,7 @@ pub type Executive = frame_executive::Executive<
     Block,
     frame_system::ChainContext<Runtime>,
     Runtime,
-    AllPalletsReversedWithSystemFirst,
+    AllPalletsWithSystem,
     OnRuntimeUpgradeHooks,
 >;
 
@@ -961,7 +961,7 @@ impl_runtime_apis! {
             let mut list = Vec::<BenchmarkList>::new();
             list_benchmarks!(list, extra);
 
-            let storage_info = AllPalletsReversedWithSystemFirst::storage_info();
+            let storage_info = AllPalletsWithSystem::storage_info();
 
             (list, storage_info)
         }
