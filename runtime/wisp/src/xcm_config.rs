@@ -1,5 +1,5 @@
 use super::{
-    assets_config::WispAssetConfig, AssetManager, Assets, Balances, DmpQueue,
+    assets_config::CommonAssetConfig, AssetManager, Assets, Balances, DmpQueue,
     EnsureRootOrMoreThanHalfCouncil, ParachainInfo, ParachainSystem, PolkadotXcm, Runtime,
     RuntimeCall, RuntimeEvent, RuntimeOrigin, Treasury, XcmpQueue, MAXIMUM_BLOCK_WEIGHT,
 };
@@ -116,7 +116,7 @@ parameter_types! {
 pub type MultiAssetTransactor = MultiAssetAdapter<
     Runtime,
     // Used to find the query the native asset id of the chain.
-    WispAssetConfig,
+    CommonAssetConfig,
     // "default" implementation of converting a `MultiLocation` to an `AccountId`
     LocationToAccountId,
     // Used when the incoming asset is a fungible concrete asset matching the given location or name:

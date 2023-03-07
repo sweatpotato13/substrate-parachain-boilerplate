@@ -134,21 +134,21 @@ parameter_types! {
 }
 
 pub type WispConcreteFungibleLedger =
-    NativeAndNonNative<Runtime, WispAssetConfig, Balances, Assets>;
+    NativeAndNonNative<Runtime, CommonAssetConfig, Balances, Assets>;
 
 /// AssetConfig implementations for this runtime
 #[derive(Clone, Eq, PartialEq)]
-pub struct WispAssetConfig;
-impl LocationType for WispAssetConfig {
+pub struct CommonAssetConfig;
+impl LocationType for CommonAssetConfig {
     type Location = AssetLocation;
 }
-impl BalanceType for WispAssetConfig {
+impl BalanceType for CommonAssetConfig {
     type Balance = Balance;
 }
-impl AssetIdType for WispAssetConfig {
+impl AssetIdType for CommonAssetConfig {
     type AssetId = CommonAssetId;
 }
-impl AssetConfig<Runtime> for WispAssetConfig {
+impl AssetConfig<Runtime> for CommonAssetConfig {
     type StartNonNativeAssetId = StartNonNativeAssetId;
     type NativeAssetId = NativeAssetId;
     type AssetRegistryMetadata = AssetRegistryMetadata<Balance>;
@@ -164,7 +164,7 @@ impl pallet_asset_manager::Config for Runtime {
     type AssetId = CommonAssetId;
     type Balance = Balance;
     type Location = AssetLocation;
-    type AssetConfig = WispAssetConfig;
+    type AssetConfig = CommonAssetConfig;
     type ModifierOrigin = EnsureRoot<AccountId>;
     type PalletId = AssetManagerPalletId;
     type WeightInfo = weights::pallet_asset_manager::SubstrateWeight<Runtime>;
