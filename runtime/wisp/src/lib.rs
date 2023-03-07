@@ -32,8 +32,7 @@ use frame_support::{
     dispatch::DispatchClass,
     parameter_types,
     traits::{
-        ConstU32, ConstU8, Contains, Currency, EitherOfDiverse, IsInVec, NeverEnsureOrigin,
-        PrivilegeCmp,
+        ConstU32, ConstU8, Contains, Currency, EitherOfDiverse, NeverEnsureOrigin, PrivilegeCmp,
     },
     weights::{ConstantMultiplier, Weight},
     PalletId,
@@ -182,7 +181,6 @@ impl Contains<RuntimeCall> for BaseFilter {
         // keep CallFilter with explicit true/false for documentation
         match call {
             // Explicitly DISALLOWED calls
-            | RuntimeCall::Assets(_) // Filter Assets. Assets should only be accessed by AssetManager.
             | RuntimeCall::AssetManager(_) // AssetManager is also filtered because all of its extrinsics
                                     // are callable only by Root, and Root calls skip this whole filter.
             // Currently, we filter `register_as_candidate` as this call is not yet ready for community.
@@ -208,6 +206,9 @@ impl Contains<RuntimeCall> for BaseFilter {
             | RuntimeCall::XcmpQueue(_) | RuntimeCall::PolkadotXcm(_) | RuntimeCall::DmpQueue(_) => false,
 
             // Explicitly ALLOWED calls
+            | RuntimeCall::Assets(
+                pallet_assets::Call::transfer {..}
+                | pallet_assets::Call::transfer_keep_alive {..}) // Filter Assets. Assets should only be accessed by AssetManager.
             | RuntimeCall::Authorship(_)
             // Sudo also cannot be filtered because it is used in runtime upgrade.
             | RuntimeCall::Sudo(_)
