@@ -97,14 +97,6 @@ pub fn new_partial(
 	let client = Arc::new(client);
 
 	let keystore = keystore_container.sync_keystore();
-	if config.offchain_worker.enabled {
-		sp_keystore::SyncCryptoStore::sr25519_generate_new(
-			&*keystore,
-			parachain_template_runtime::pallet_offchain_worker::KEY_TYPE,
-			Some("//Alice"),
-		)
-		.expect("Creating key with account Alice should work");
-	}
 
 	let telemetry_worker_handle = telemetry.as_ref().map(|(worker, _)| worker.handle());
 

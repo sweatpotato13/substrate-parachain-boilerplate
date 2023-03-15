@@ -19,9 +19,6 @@ jsonrpsee = { version = "0.16.2", features = ["server"] }
 # Local
 parachain-template-runtime = { path = "../runtime" }
 
-# pallet
-pallet-offchain-worker = { path = "../pallets/offchain-worker", default-features = false }
-
 # Substrate
 frame-benchmarking = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.37" }
 frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.37" }
@@ -47,7 +44,6 @@ sp-blockchain = { git = "https://github.com/paritytech/substrate", branch = "pol
 sp-consensus-aura = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.37" }
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.37" }
 sp-keystore = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.37" }
-sp-offchain = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.37" }
 sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.37" }
 sp-session = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.37" }
 sp-timestamp = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.37" }

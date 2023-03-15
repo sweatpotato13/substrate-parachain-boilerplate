@@ -17,10 +17,10 @@
     <!-- <img src="images/logo.png" alt="Logo" width="80" height="80"> -->
   </a>
 
-<h3 align="center">Substrate Cumulus Parachain boilerplate</h3>
+<h3 align="center">Substrate Parachain boilerplate</h3>
 
   <p align="center">
-    Substrate based polkadot parachain boilerplate
+    Substrate Parachain boilerplate
     <br />
     <a href="https://github.com/sweatpotato13/substrate-parachain-boilerplate"><strong>Explore the docs »</strong></a>
     <br />
@@ -33,111 +33,99 @@
   </p>
 </div>
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
+<!-- TOC -->
 
-### Built With
+<h3 align="center">Table of Contents</h3>
+  <p align="center">
+    <a href="#1-introduction">1. Introduction</a><br>
+    <a href="#2-overview">2. Overview</a><br>
+    <a href="#3-building">3. Building</a><br>
+    <a href="#4-run">4. Run</a><br>
+    <a href="#5-development">5. Development</a><br>
+  </p>
 
--   [Rust](https://www.rust-lang.org/)
--   [Substrate](https://substrate.io/)
--   [zombienet](https://github.com/paritytech/zombienet)
--   [docker](https://www.docker.com/)
--   [kubernetes](https://kubernetes.io/)
+<!-- /TOC -->
+
+## 1. Introduction
+
+Welcome to the Substrate Boilerplate! This is a starting point for building custom blockchains using the Substrate blockchain development framework from Parity Technologies.
+
+Substrate is a modular and scalable framework that allows you to easily create custom blockchains with unique features and functionalities. The Substrate Boilerplate provides a template for building a Substrate-based blockchain with a basic set of features and components.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- GETTING STARTED -->
+## 2. Overview
 
-## Getting Started
+The Substrate Boilerplate includes the following features:
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+-   Consensus: Proof of Authority (PoA, Aura) consensus algorithm
+-   Governance: Council-based governance model
+-   Token: Native token with initial supply
+-   Runtime Modules: Example runtime modules for accounts, balances, and identity
 
-### Build locally
-
-1. Clone the repo
-
-    ```sh
-    git clone https://github.com/sweatpotato13/substrate-parachain-boilerplate.git
-    ```
-
-2. Build
-    ```sh
-    make build
-    ```
-
-### Make docker image
-
-1. Build docker image
-    ```sh
-    docker build . -f docker/Dockerfile -t <image-name>/<image-tag>
-    ```
-
-### Setup native local development network with zombienet
-
-1. Run command
-
-    ```sh
-    zombienet-macos spawn --provider native zombienet/local_dev.toml
-    ```
-
-    - Must be installed and builded polkadot on your local machine
-
-### Setup network with zombienet in kubernetes
-
-1. Change config on `zombienet/k8s_dev.toml` file
-
-    ```sh
-    nano zombienet/k8s_dev.toml
-    ```
-
-    - you can change relay chain docker image & parachain docker image
-
-2. Run command
-    ```sh
-    zombienet-macos spawn --provider kubernetes zombienet/k8s_dev.toml
-    ```
+With these features, you can quickly create a basic blockchain with a built-in token economy and governance system.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- CONTRIBUTING -->
+## 3. Building
 
-## Contributing
+Install Rust:
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+```sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+and install rust nightly:
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+```
+rustup update
+rustup update nightly
+rustup target add wasm32-unknown-unknown --toolchain nightly
+```
+
+and install other dependencies like profobuf, llvm:
+
+```sh
+# MacOS
+brew install llvm protobuf
+# Ubuntu
+sudo apt-get install -y protobuf-compiler llvm
+```
+
+build infra-did node:
+
+```sh
+cargo build --release
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- CONTACT -->
+## 4. Run
 
-## Contact
+You can start local development chain
 
-Project Link: [https://github.com/sweatpotato13/substrate-parachain-boilerplate](https://github.com/sweatpotato13/substrate-parachain-boilerplate)
+```sh
+./target/release/parachain-template-node --dev --alice --tmp
+```
+
+or start local chain
+
+```sh
+./target/release/parachain-template-node --chain=local --alice --tmp
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+## 5. Development
+
+You can start local development parachain with relay chain using [zombienet](https://github.com/paritytech/zombienet)
+
+```sh
+zombienet spawn --provider native zombienet/local-dev.toml
+```
+
+And apply rust formatter
+
+```sh
+cargo +nightly fmt
+```
